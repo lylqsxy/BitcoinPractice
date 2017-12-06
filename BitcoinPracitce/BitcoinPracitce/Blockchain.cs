@@ -7,7 +7,7 @@ namespace CSharpToyBitcoinBlockchain
     class Blockchain
     {
         const int PERIOD = 5;
-        const int TARGET_TIME_SPAN = 5000;
+        const int TARGET_TIME_SPAN = 5;
 
         // a chain has many blocks
         private List<Block> _chain;
@@ -18,7 +18,7 @@ namespace CSharpToyBitcoinBlockchain
 
         public Blockchain()
         {
-            this._difficulty = 56155;
+            this._difficulty = 1;
             this._version = 2;
 
             Console.WriteLine("Init Blockchain......");
@@ -48,13 +48,13 @@ namespace CSharpToyBitcoinBlockchain
             var count = this._chain.Count;
             if ( count >= PERIOD + 1 && count % PERIOD == 1)
             {
-                var totalTimeSpan = new TimeSpan();
+                Int32 totalTimeSpan = 0;
                 for (int i = 1; i <= PERIOD; i++)
                 {
                     var timeSpan = this._chain[count - i].GetTimestamp() - this._chain[count - i - 1].GetTimestamp();
                     totalTimeSpan += timeSpan;
                 }
-                var avgTimeSpan = totalTimeSpan.TotalMilliseconds / PERIOD;
+                var avgTimeSpan = (double)totalTimeSpan / PERIOD;
                 _difficulty = Convert.ToInt32(_difficulty * (TARGET_TIME_SPAN / avgTimeSpan));
             }
            
